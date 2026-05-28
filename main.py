@@ -1,5 +1,5 @@
 import pygame
-import player
+from player import Player
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH, PLAYER_RADIUS, LINE_WIDTH
 from logger import log_state
 
@@ -13,7 +13,10 @@ def main():
     clock = pygame.time.Clock()
     dt = 0.0
 
-    p1 = player.Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+    drawable, updatable = pygame.sprite.Group(), pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
+
+    p1 = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 
     while True:
         # logger function from boot.dev
@@ -23,10 +26,13 @@ def main():
             # check for quiting by X
             if event.type == pygame.QUIT:
                 return
-
+            
         screen.fill("black")
-        p1.draw(screen)
-        p1.update(dt)
+        
+        for d in drawable:
+            d.draw(screen)
+        
+        updatable.update(dt)
 
         pygame.display.flip()
 
