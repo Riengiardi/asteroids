@@ -9,6 +9,8 @@ def main():
 
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    clock = pygame.time.Clock()
+    dt = 0.0
 
     while True:
         # logger function from boot.dev
@@ -21,6 +23,9 @@ def main():
 
         screen.fill("black")
         pygame.display.flip()
+
+        # makes sure that the time between frames is limited to .0166666 (60fps)
+        dt = clock.tick(60) / 1000
 
 
 
