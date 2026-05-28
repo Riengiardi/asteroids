@@ -1,5 +1,6 @@
 import pygame
-from constants import SCREEN_HEIGHT, SCREEN_WIDTH
+import player
+from constants import SCREEN_HEIGHT, SCREEN_WIDTH, PLAYER_RADIUS, LINE_WIDTH
 from logger import log_state
 
 def main():
@@ -12,6 +13,8 @@ def main():
     clock = pygame.time.Clock()
     dt = 0.0
 
+    p1 = player.Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+
     while True:
         # logger function from boot.dev
         log_state()
@@ -22,6 +25,8 @@ def main():
                 return
 
         screen.fill("black")
+        p1.draw(screen)
+
         pygame.display.flip()
 
         # makes sure that the time between frames is limited to .0166666 (60fps)
