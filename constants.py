@@ -8,6 +8,7 @@ LINE_WIDTH = 2
 # bullet constants
 SHOT_RADIUS = 5
 PLAYER_SHOT_SPEED = 500
+PLAYER_SHOT_COOLDOWN_SECONDS = 0.3
 
 # player constants
 PLAYER_RADIUS = 20
