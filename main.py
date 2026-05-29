@@ -1,4 +1,5 @@
 import pygame, sys
+from scoreboard import Scoreboard
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
@@ -11,6 +12,7 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
+    sboard = Scoreboard(pygame.font.Font("font.ttf", 20))
     gameover = False
     gameover_font = pygame.font.Font("font.ttf", 64)
 
@@ -34,6 +36,7 @@ def main():
 
         if not gameover:
             screen.fill("black")
+            screen.blit(sboard.show_score(), (SCREEN_WIDTH/2, 0))
             
             for d in drawable:
                 d.draw(screen)
@@ -49,6 +52,7 @@ def main():
                 for s in shots:
                     if s.collides_with(a):
                         log_event("asteroid_shot")
+                        sboard.scored()
                         a.split()
                         s.kill()
 
