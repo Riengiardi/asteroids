@@ -5,6 +5,10 @@ SCREEN_HEIGHT = 720
 # drawing constants
 LINE_WIDTH = 2
 
+# bullet constants
+SHOT_RADIUS = 5
+PLAYER_SHOT_SPEED = 500
+
 # player constants
 PLAYER_RADIUS = 20
 PLAYER_TURN_SPEED = 300
