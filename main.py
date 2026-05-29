@@ -1,5 +1,7 @@
 import pygame
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH, PLAYER_RADIUS, LINE_WIDTH
 from logger import log_state
 
@@ -13,10 +15,13 @@ def main():
     clock = pygame.time.Clock()
     dt = 0.0
 
-    drawable, updatable = pygame.sprite.Group(), pygame.sprite.Group()
+    drawable, updatable, asteroids = pygame.sprite.Group(), pygame.sprite.Group(), pygame.sprite.Group()
     Player.containers = (updatable, drawable)
+    Asteroid.containers = (updatable, drawable, asteroids)
+    AsteroidField.containers = (updatable)
 
     p1 = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+    a_field = AsteroidField()
 
     while True:
         # logger function from boot.dev
