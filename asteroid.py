@@ -18,10 +18,10 @@ class Asteroid(CircleShape):
     def explode(self):
         for i in range(0, 6):
             angle = random.uniform(0, 360)
-            v_mul = random.uniform(1.6, 2.0)
+            v_mul = random.uniform(1.6, 2.4)
+            v_part = self.velocity.rotate(angle)
             particle = Particle(self.position.x, self.position.y, 2)
-            vel_p = self.velocity.rotate(angle)
-            particle.velocity = vel_p * v_mul
+            particle.velocity = v_part * v_mul
 
     def split(self) -> None:
 
