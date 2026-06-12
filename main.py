@@ -15,7 +15,8 @@ def main():
     clock = pygame.time.Clock()
     
     # state for losing condition
-    gameover = False
+    is_gameover = False
+    lives = 3
 
     # text variables for content providers
     score = 0
@@ -23,6 +24,7 @@ def main():
     # text objects
     gameover_text = Text(GAME_FONT, 64, lambda: "Game Over!", SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
     scoreboard = Text(GAME_FONT, 24, lambda: f"Score: {score}", SCREEN_WIDTH/2, 16)
+    life_count = Text(GAME_FONT, 24, lambda: f"Lives: {lives}", SCREEN_WIDTH/2, SCREEN_HEIGHT - 16)
 
     # containers for different sprite types
     drawable, updatable, asteroids, shots = pygame.sprite.Group(), pygame.sprite.Group(), pygame.sprite.Group(), pygame.sprite.Group()
@@ -30,6 +32,15 @@ def main():
     Asteroid.containers = (updatable, drawable, asteroids)
     AsteroidField.containers = (updatable)
     Shot.containers = (updatable, drawable, shots)
+
+    # helper function to clear and repopulate screen on death
+    def start_new_game() -> tuple[Player, AsteroidField]:
+        drawable.empty()
+        updatable.empty()
+        asteroids.empty()
+        shots.empty()
+        return Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), AsteroidField()
+
 
     # drawing player at the middle
     p1 = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
@@ -46,9 +57,11 @@ def main():
             if event.type == pygame.QUIT:
                 return
 
-        if not gameover:
+        if not is_gameover:
             screen.fill("black")
+
             scoreboard.draw(screen)
+            life_count.draw(screen)
             
             for d in drawable:
                 d.draw(screen)
@@ -59,7 +72,11 @@ def main():
             for a in asteroids:
                 if p1.collides_with(a):
                     log_event("player_hit")
-                    gameover = True
+                    p1, a_field = start_new_game()
+                    lives -= 1
+                    if lives < 0:
+                        is_gameover = True
+                    
                     
                 for s in shots:
                     if s.collides_with(a):
