@@ -2,6 +2,7 @@ from circleshape import CircleShape
 from constants import *
 import pygame, random
 from logger import log_event
+from particle import Particle
 
 class Asteroid(CircleShape):
 
@@ -14,9 +15,18 @@ class Asteroid(CircleShape):
     def update(self, dt):
         self.position += self.velocity * dt
 
+    def explode(self):
+        for i in range(0, 6):
+            angle = random.uniform(0, 360)
+            v_mul = random.uniform(1.6, 2.0)
+            particle = Particle(self.position.x, self.position.y, 2)
+            vel_p = self.velocity.rotate(angle)
+            particle.velocity = vel_p * v_mul
+
     def split(self) -> None:
 
         self.kill()
+        self.explode()
 
         if self.radius == ASTEROID_MIN_RADIUS:
             return
@@ -31,3 +41,4 @@ class Asteroid(CircleShape):
         a2 = Asteroid(self.position.x, self.position.y, new_radius)
         a1.velocity = vel1 * 1.2
         a2.velocity = vel2 * 1.2
+

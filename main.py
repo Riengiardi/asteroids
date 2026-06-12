@@ -1,4 +1,5 @@
 import pygame, sys
+from particle import Particle
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
@@ -27,11 +28,17 @@ def main():
     life_count = Text(GAME_FONT, 24, lambda: f"Lives: {lives}", SCREEN_WIDTH/2, SCREEN_HEIGHT - 16)
 
     # containers for different sprite types
-    drawable, updatable, asteroids, shots = pygame.sprite.Group(), pygame.sprite.Group(), pygame.sprite.Group(), pygame.sprite.Group()
+    drawable, updatable, asteroids, shots = (pygame.sprite.Group(), 
+                                             pygame.sprite.Group(), 
+                                             pygame.sprite.Group(), 
+                                             pygame.sprite.Group())
+    
+    # assigning sprites to groups
     Player.containers = (updatable, drawable)
     Asteroid.containers = (updatable, drawable, asteroids)
     AsteroidField.containers = (updatable)
     Shot.containers = (updatable, drawable, shots)
+    Particle.containers = (updatable, drawable)
 
     # helper function to clear and repopulate screen on death
     def start_new_game() -> tuple[Player, AsteroidField]:
