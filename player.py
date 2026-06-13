@@ -36,6 +36,9 @@ class Player(circleshape.CircleShape):
         self.position += rotated_with_speed_vector
 
     def update(self, dt: float) -> None:
+
+        super().update(dt)
+
         keys = pygame.key.get_pressed()
         self.cooldown -= dt
 

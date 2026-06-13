@@ -14,12 +14,10 @@ Created Text object usable in multiple cases
 Implement multiple lives and respawning
 Add an explosion effect for the asteroids
 Add acceleration to the player movement
+Make the objects wrap around the screen instead of disappearing (I don't feel like asteroids should wrap around)
 
 Before proceeding with:
 
-
-Make the objects wrap around the screen instead of disappearing
-Add a background image
 Create different weapon types
 Make the asteroids lumpy instead of perfectly round
 Make the ship have a triangular hit box instead of a circular one
