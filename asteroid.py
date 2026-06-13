@@ -1,16 +1,31 @@
 from circleshape import CircleShape
 from constants import *
-import pygame, random
+import pygame, random, math
 from logger import log_event
 from particle import Particle
 
 class Asteroid(CircleShape):
 
     def __init__(self, x: float, y: float, radius: float) -> None:
+        
         super().__init__(x, y, radius)
 
+        self.shape: list[pygame.Vector2] = []
+
+        for i in range(32):
+            angle = (2 * math.pi * i) / 32
+            r = radius + random.uniform(-radius * 0.05, radius * 0.05)
+            
+            self.shape.append(
+                pygame.Vector2(
+                    math.cos(angle) * r,
+                    math.sin(angle) * r,
+                )
+            )
+
     def draw(self, screen):
-        pygame.draw.circle(screen, "white", self.position, self.radius, LINE_WIDTH)
+        points: list[pygame.Vector2] = [self.position + p for p in self.shape]
+        pygame.draw.polygon(screen, "white", points, LINE_WIDTH)
 
     def update(self, dt):
         self.position += self.velocity * dt
