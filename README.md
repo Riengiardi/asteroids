@@ -14,7 +14,7 @@ Created Text object usable in multiple cases
 Implement multiple lives and respawning
 Add an explosion effect for the asteroids
 Add acceleration to the player movement
-Make the objects wrap around the screen instead of disappearing (I don't feel like asteroids should wrap around)
+Make the player wrap around the screen instead of disappearing (I don't feel like asteroids should wrap around)
 
 Before proceeding with:
 

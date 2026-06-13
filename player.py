@@ -1,16 +1,22 @@
 import circleshape
 import pygame
-from shot import Shot
 from constants import *
 from logger import log_event
+from weapon import Weapon
+from singleshoot import *
+from burstshoot import *
 
 class Player(circleshape.CircleShape):
 
     def __init__(self, x: int, y: int) -> None:
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation: int = 0
-        self.cooldown = 0.0
-        self.speed = 0.0
+        self.speed: float = 0.0
+        self.weapons: list[Weapon] = [
+            BurstShoot(self, 0.2, 500, 4, 0.035, 3), 
+            SingleShoot(self, 0.3, 400, 6)
+        ]
+        self.current_weapon = self.weapons[0]
 
 
     def draw(self, screen):
@@ -38,17 +44,18 @@ class Player(circleshape.CircleShape):
     def update(self, dt: float) -> None:
 
         super().update(dt)
+        self.move(dt)
+        self.current_weapon.update(dt)
 
         keys = pygame.key.get_pressed()
-        self.cooldown -= dt
 
-        self.move(dt)
-
+        # rotation controls
         if keys[pygame.K_a]:
             self.rotate(-dt)
         if keys[pygame.K_d]:
             self.rotate(dt)
 
+        # accelerated movement controls including decceleration logic when left untouched
         if keys[pygame.K_w]:
             if self.speed < PLAYER_SPEED: self.speed += 120 * dt
         elif keys[pygame.K_s]:
@@ -59,18 +66,12 @@ class Player(circleshape.CircleShape):
             if self.speed < 0:
                 self.speed += 120 * dt
             
-        
+        # weapon controls
         if keys[pygame.K_SPACE]:
-            self.shoot()
-
-
-    def shoot(self) -> None:
-        if self.cooldown <= 0.0:
-            bullet = Shot(self.position.x, self.position.y)
-            bullet.velocity = pygame.Vector2(0, 1)
-            bullet.velocity = bullet.velocity.rotate(self.rotation)
-            bullet.velocity *= PLAYER_SHOT_SPEED
-            self.cooldown = PLAYER_SHOT_COOLDOWN_SECONDS
-        
+            self.current_weapon.shoot()
+        if keys[pygame.K_1]:
+            self.current_weapon = self.weapons[0]
+        if keys[pygame.K_2]:
+            self.current_weapon = self.weapons[1]
 
         
